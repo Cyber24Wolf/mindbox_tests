@@ -44,6 +44,23 @@ namespace GeometryLib
             return InscribedCircle.SmallRadius * semiPerimeter;
         }
 
+        public bool IsRightTriangle()
+        {
+            return IsRightAngle(A,B) || IsRightAngle(B, C) || IsRightAngle(C, A);
+        }
+
+        private bool IsRightAngle(Vector2 a, Vector2 b)
+        {
+
+            var dotProduct = Vector2.Dot(a, b);
+            if (dotProduct == 0f)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         [Serializable]
         public class TriangleCannotExistException : Exception
         {
