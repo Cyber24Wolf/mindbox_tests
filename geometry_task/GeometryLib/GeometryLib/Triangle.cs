@@ -17,16 +17,28 @@ namespace GeometryLib
 
         public Triangle(Vector2 a, Vector2 b, Vector2 c)
         {
+            if (a == b || a == c || b == c)
+            {
+                throw new TriangleCannotExistException(a, b, c);
+            }
+
+            if (!ValidateVectorsDotProduct(a, b) ||
+                !ValidateVectorsDotProduct(b, c) ||
+                !ValidateVectorsDotProduct(c, a))
+            {
+                throw new TriangleCannotExistException(a, b, c);
+            }
+
             // TODO calculate Area without distances somehow, it's too slow
             AB_Length = Vector2.Distance(a, b);
             BC_Length = Vector2.Distance(b, c);
             CA_Length = Vector2.Distance(a, c);
 
-            if (AB_Length <= BC_Length + CA_Length ||
-                BC_Length <= AB_Length + CA_Length ||
-                CA_Length <= AB_Length + BC_Length)
+            if (AB_Length > BC_Length + CA_Length ||
+                BC_Length > AB_Length + CA_Length ||
+                CA_Length > AB_Length + BC_Length)
             {
-                throw new TriangleCannotExistException(A, B, C);
+                throw new TriangleCannotExistException(a, b, c);
             }
 
             A = a;
@@ -35,6 +47,18 @@ namespace GeometryLib
 
             var radius = (AB_Length + BC_Length - CA_Length) * 0.5d;
             InscribedCircle = new Circle(radius);
+        }
+
+        private bool ValidateVectorsDotProduct(Vector2 a, Vector2 b)
+        {
+            var dotProductAbs = Math.Abs(Vector2.Dot(Vector2.Normalize(a), Vector2.Normalize(b)));
+
+            if (dotProductAbs >= 0.999f && dotProductAbs <= 1f)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         // S = r * p, p - semi perimeter, r - radius of inscribed circle
@@ -60,11 +84,12 @@ namespace GeometryLib
 
             return false;
         }
+    }
 
-        [Serializable]
-        public class TriangleCannotExistException : Exception
-        {
-            public TriangleCannotExistException(Vector2 a, Vector2 b, Vector2 c) : base($"{typeof(TriangleCannotExistException)}\n Cannot generate triangle from Vectors a:{a} b:{b} c:{c}") { }
-        }
+    [Serializable]
+    public class TriangleCannotExistException : Exception
+    {
+        public TriangleCannotExistException(Vector2 a, Vector2 b, Vector2 c) : 
+            base($"{typeof(TriangleCannotExistException)}\n Cannot generate triangle from Vectors a:{a} b:{b} c:{c}") { }
     }
 }

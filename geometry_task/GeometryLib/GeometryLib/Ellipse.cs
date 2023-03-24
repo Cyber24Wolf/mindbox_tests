@@ -9,21 +9,21 @@ namespace GeometryLib
 
         public Ellipse(double radiusA, double radiusB)
         {
-            if (!ValidateRadius(radiusA) && !ValidateRadius(radiusB))
+            if (!ValidateRadius(radiusA) || 
+                !ValidateRadius(radiusB))
             {
-                SmallRadius = 0d;
-                BigRadius = 0d;
                 return;
             }
-
+            
             SmallRadius = Math.Min(radiusA, radiusB);
             BigRadius = Math.Max(radiusA, radiusB);
         }
 
         // if radius is valid return true.
-        private bool ValidateRadius(double radius)
+        public bool ValidateRadius(double radius)
         {
-            if (radius == 0d)
+
+            if (radius <= 0d)
             {
                 throw new WrongRadiusException(radius);
             }
@@ -41,5 +41,11 @@ namespace GeometryLib
     public class WrongRadiusException : Exception
     {
         public WrongRadiusException(double radius) : base($"{typeof(WrongRadiusException)}\n Can\'t hold the {radius}") { }
+    }
+
+    [Serializable]
+    public class debug : Exception
+    {
+        public debug(bool radius) : base($"{typeof(debug)}\n debug {radius}") { }
     }
 }
