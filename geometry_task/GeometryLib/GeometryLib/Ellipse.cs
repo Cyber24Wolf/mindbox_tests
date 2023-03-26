@@ -42,10 +42,4 @@ namespace GeometryLib
     {
         public WrongRadiusException(double radius) : base($"{typeof(WrongRadiusException)}\n Can\'t hold the {radius}") { }
     }
-
-    [Serializable]
-    public class debug : Exception
-    {
-        public debug(bool radius) : base($"{typeof(debug)}\n debug {radius}") { }
-    }
 }
