@@ -6,43 +6,38 @@ namespace DatabaseUserIterface
     {
 
         private const int SERVER_ID_INDEX = 0;
-        private const int TABLE_ID_INDEX = 1;
+        private const int DATABASE_ID_INDEX = 1;
 
-        public MSServerConnectionMessageToUser()
-        {            
-        }
-
-        public override string GetCommand()
+        public override string GetMessageText()
         {
-            return "reconnect";
+            return "Put [server-id] [table-id]";
         }
 
-        public override string GetSignatureDescription()
-        {
-            return "[server-id] [table-id]";
-        }
+        public override MSServerConnectionUserResponce ProceedUserResponce(string rawMessage)
+        { 
+            var splitResult = rawMessage.Split(' ');
 
-        public override int GetValuesCount()
-        {
-            return 2;
+            if (splitResult.Length == 2)
+            {
+                return new MSServerConnectionUserResponce(splitResult[SERVER_ID_INDEX], splitResult[DATABASE_ID_INDEX]);
+            }
+            else
+            {
+                Console.WriteLine($"Wrong input signature. {GetMessageText()}");
+                return null;
+            }
         }
-
-        public override MSServerConnectionUserResponce ProceedCommand(string[] commandValues)
-        {          
-            return new MSServerConnectionUserResponce(commandValues[SERVER_ID_INDEX], commandValues[TABLE_ID_INDEX]);
-        }
-
     }
 
     public class MSServerConnectionUserResponce : UserResponce
     {
         public string ServerId { get; private set; }
-        public string TableId { get; private set; }
+        public string DatabaseId { get; private set; }
 
-        public MSServerConnectionUserResponce(string serverId, string tableId)
+        public MSServerConnectionUserResponce(string serverId, string databaseId)
         {
             ServerId = serverId;
-            TableId = tableId;
+            DatabaseId = databaseId;
         }
     }
 }

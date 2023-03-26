@@ -4,27 +4,21 @@ namespace DatabaseUserIterface
 {
     public class DialogWithUserHandler
     {
-        public T Run<T>(MessageToUser<T> message) where T : UserResponce
+        
+        public R SendUserMessage<M, R>(M message) 
+            where R : UserResponce 
+            where M : MessageToUser<R>
         {
-            T responce = null;
+            Console.WriteLine(message.GetMessageText());
 
+
+            R responce = null;
             do
             {
-                Console.WriteLine($"Put {message.GetSignatureDescription()}");
-
-                var input = Console.ReadLine();
-                var splitResult = input.Split(' ');
-
-                if (splitResult.Length == message.GetValuesCount())
-                {
-                    responce = message.ProceedCommand(splitResult);
-                }
-                else
-                {
-                    Console.WriteLine("Wrong input, try again");
-                }
-
-            } while (responce == null);
+                var rawInput = Console.ReadLine();
+                responce = message.ProceedUserResponce(rawInput);
+            }
+            while (responce == null);
 
             return responce;
         }
