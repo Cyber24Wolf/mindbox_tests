@@ -11,10 +11,12 @@ namespace DatabaseUserIterface
         public static void Main(string[] args)
         {
             var database = new MSDatabase();
-            Reconnect(database, LOCAL_SERVER_ID, LOCAL_TABLE_ID);
+            var dialogHandler = new DialogWithUserHandler();
+            
+            Reconnect(database, dialogHandler, LOCAL_SERVER_ID, LOCAL_TABLE_ID);
         }
 
-        private static bool Reconnect(MSDatabase database, string serverId, string tableId)
+        private static bool Reconnect(MSDatabase database, DialogWithUserHandler dialogHandler, string serverId, string tableId)
         {
             var isConnected = database.CreateConnection(serverId, tableId);
             
@@ -27,10 +29,9 @@ namespace DatabaseUserIterface
             {
                 Console.WriteLine($"Cant create connection with {serverId}::{tableId}");
 
-                var toUserRequest = new MSServerConnectionRequestToUser();
-                var userResponce = toUserRequest.Send();
+                var userResponce = dialogHandler.Run(new MSServerConnectionMessageToUser());
 
-                return Reconnect(database, userResponce.ServerId, userResponce.TableId);
+                return Reconnect(database, dialogHandler, userResponce.ServerId, userResponce.TableId);
             }
         }
     }
