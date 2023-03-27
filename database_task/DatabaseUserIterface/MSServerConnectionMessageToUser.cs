@@ -10,7 +10,7 @@ namespace DatabaseUserIterface
 
         public override string GetMessageText()
         {
-            return "Put [server-id] [table-id]";
+            return "Put [server-id] [database-id]";
         }
 
         public override MSServerConnectionUserResponce ProceedUserResponce(string rawMessage)

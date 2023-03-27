@@ -1,37 +1,39 @@
-﻿using System;
-using DatabaseInteractionLibrary;
+﻿using DatabaseInteractionLibrary;
 
 namespace DatabaseUserIterface
 {
     public class Program
     {
-        private const string LOCAL_SERVER_ID = "DESKTOP-RE1P6HN";
-        private const string LOCAL_DATABASE_ID = "products_to_categories";
+        public class ProgramState
+        {
+            public MSDatabase Database { get; private set; }
+            public DialogWithUserHandler DialogWithUserHandler { get; private set; }
+
+            public ProgramState(MSDatabase database, DialogWithUserHandler dialogWithUserHandler)
+            {
+                Database = database;
+                DialogWithUserHandler = dialogWithUserHandler;
+            }
+        }
+
+        public static ProgramState CurrentState { get; private set; }
 
         public static void Main(string[] args)
         {
-            var database = new MSDatabase();
-            var dialogHandler = new DialogWithUserHandler();
-            
-            Reconnect(database, dialogHandler, LOCAL_SERVER_ID, LOCAL_DATABASE_ID);
+            CurrentState = new ProgramState(new MSDatabase(), new DialogWithUserHandler());
 
-            dialogHandler.WaitForUserCommand();
+            var reconnectCommand = new ReconnectToServerCommand(CurrentState);
+            reconnectCommand.Proceed();
+
+            ProceedUserCommands(CurrentState);
         }
 
-        private static bool Reconnect(MSDatabase database, DialogWithUserHandler dialogHandler, string serverId, string databaseId)
-        {
-            var isConnected = database.CreateConnection(serverId, databaseId);
-            
-            if (isConnected)
+        private static void ProceedUserCommands(ProgramState state)
+        {            
+            while (true)
             {
-                Console.WriteLine($"Succefully connect to {serverId}::{databaseId}");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine($"Cant create connection with {serverId}::{databaseId}");
-                MSServerConnectionUserResponce userResponce = dialogHandler.SendUserMessage<MSServerConnectionMessageToUser, MSServerConnectionUserResponce>(new MSServerConnectionMessageToUser());
-                return Reconnect(database, dialogHandler, userResponce.ServerId, userResponce.DatabaseId);
+                var userResponce = state.DialogWithUserHandler.SendUserMessage<AskUserCommand, UserCommandResponce>(new AskUserCommand(), null);
+                userResponce.UserCommand.Proceed();
             }
         }
     }

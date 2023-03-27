@@ -4,13 +4,11 @@ namespace DatabaseUserIterface
 {
     public class DialogWithUserHandler
     {
-        
-        public R SendUserMessage<M, R>(M message) 
-            where R : UserResponce 
+        public R SendUserMessage<M, R>(M message, Action<R> onResponce) 
+            where R : UserResponce
             where M : MessageToUser<R>
         {
             Console.WriteLine(message.GetMessageText());
-
 
             R responce = null;
             do
@@ -20,6 +18,7 @@ namespace DatabaseUserIterface
             }
             while (responce == null);
 
+            onResponce?.Invoke(responce);
             return responce;
         }
     }

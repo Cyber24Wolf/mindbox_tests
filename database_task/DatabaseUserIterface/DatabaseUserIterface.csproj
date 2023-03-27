@@ -48,6 +48,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DialogWithUserHandler.cs" />
+    <Compile Include="ReconnectToServerCommand.cs" />
+    <Compile Include="Command.cs" />
+    <Compile Include="AskUserCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
