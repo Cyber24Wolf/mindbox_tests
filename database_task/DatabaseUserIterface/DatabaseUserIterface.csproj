@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExitCommand.cs" />
     <Compile Include="MessageToUser.cs" />
     <Compile Include="MSServerConnectionMessageToUser.cs" />
     <Compile Include="Program.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="ReconnectToServerCommand.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="AskUserCommand.cs" />
+    <Compile Include="UnknownCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

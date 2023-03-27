@@ -75,8 +75,8 @@ namespace DatabaseUserIterface
 
         public static string GetSignatureDescription(bool reconnectToDefaultServer)
         {
-            return reconnectToDefaultServer ? "\"reconnect\" - for reconnect to default database on default server\n" :
-                                              "\"reconnect [server-id] [table-id]\" - for reconnect to database on server\n";
+            return reconnectToDefaultServer ? "\"reconnect\" - for reconnect to default database on default server" :
+                                              "\"reconnect [server-id] [table-id]\" - for reconnect to database on server";
         }
     }
 }
