@@ -34,7 +34,7 @@ namespace DatabaseUserIterface
             }
             else if (CategoryName == ALL_PRODUCTS_FLAG)
             {
-                Console.WriteLine("PUT_ALL_QUERY_LOGIC_HERE");
+                _programState.Database.SendAllCategoriesQuery();
             }
             else
             {

@@ -46,10 +46,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CreateTables.sql" />
+    <EmbeddedResource Include="Queries\CreateTables.sql" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="InsertDataInTables.sql" />
+    <EmbeddedResource Include="Queries\InsertDataInTables.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Queries\SelectAllCategories.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
