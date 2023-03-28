@@ -52,6 +52,8 @@
     <Compile Include="ReconnectToServerCommand.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="AskUserCommand.cs" />
+    <Compile Include="ShowCategoriesCommand.cs" />
+    <Compile Include="SplittedStringArgsHandler.cs" />
     <Compile Include="UnknownCommand.cs" />
   </ItemGroup>
   <ItemGroup>

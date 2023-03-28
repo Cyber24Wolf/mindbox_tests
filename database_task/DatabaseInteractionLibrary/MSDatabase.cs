@@ -28,14 +28,13 @@ namespace DatabaseInteractionLibrary
                     _connection.Open();
                     return true;
                 }
-                catch (Exception exception)
+                catch (Exception exeption)
                 {
-                    Console.WriteLine(exception.Message + "\n");
-                    return false;
+                    throw exeption;
                 }
             }
 
-            return false;
+            return _connection.State == System.Data.ConnectionState.Open;
         }
 
         public void CloseConnection()

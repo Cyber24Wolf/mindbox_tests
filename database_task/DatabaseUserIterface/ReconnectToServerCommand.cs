@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DatabaseUserIterface
 {
@@ -26,23 +22,11 @@ namespace DatabaseUserIterface
             _programState = programState;
         }
 
-        public ReconnectToServerCommand(Program.ProgramState programState, string[] splittedString) : this(programState, GetArgValueFromRawString(splittedString, SERVER_ID_INDEX, LOCAL_SERVER_ID), 
-                                                                                                                         GetArgValueFromRawString(splittedString, DATABASE_ID_INDEX, LOCAL_DATABASE_ID))
+        public ReconnectToServerCommand(Program.ProgramState programState, string[] splittedString) : 
+                    this(programState, SplittedStringArgsHandler.GetArgValueFromRawString(splittedString, SERVER_ID_INDEX, LOCAL_SERVER_ID),
+                                       SplittedStringArgsHandler.GetArgValueFromRawString(splittedString, DATABASE_ID_INDEX, LOCAL_DATABASE_ID))
         {
         }
-
-        private static string GetArgValueFromRawString(string[] splittedString, int argIndex, string defaultValue)
-        {
-            for (var i = 0; i < splittedString.Length; i++)
-            {
-                if (i == argIndex)
-                {
-                    return splittedString[i];
-                }
-            }
-
-            return defaultValue;
-        } 
 
         public ReconnectToServerCommand(Program.ProgramState programState) : this(programState, LOCAL_SERVER_ID, LOCAL_DATABASE_ID)
         {
@@ -76,7 +60,7 @@ namespace DatabaseUserIterface
         public static string GetSignatureDescription(bool reconnectToDefaultServer)
         {
             return reconnectToDefaultServer ? "\"reconnect\" - for reconnect to default database on default server" :
-                                              "\"reconnect [server-id] [table-id]\" - for reconnect to database on server";
+                                              "\"reconnect [server-id] [database-id]\" - for reconnect to database on server";
         }
     }
 }

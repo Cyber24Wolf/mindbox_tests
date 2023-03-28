@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DatabaseUserIterface
+﻿namespace DatabaseUserIterface
 {
     public class AskUserCommand : MessageToUser<UserCommandResponce>
     {
         public override string GetMessageText()
         {
             return "write one of this command:\n" +
-                $"\t\"category_of [product]\" - for showing category of specific product\n" +
-                $"\t\"category_of -all\" - for showing category of all products\n" +
-                $"\t{ReconnectToServerCommand.GetSignatureDescription(reconnectToDefaultServer: true)}\n" +
-                $"\t{ReconnectToServerCommand.GetSignatureDescription(reconnectToDefaultServer: false)}\n" +
-                $"\t{ExitCommand.GetSignatureDescription()}\n";
+                    $"\t{ShowCategoriesCommand.GetSignatureDescription(forSpecificProduct: true)}\n" +
+                    $"\t{ShowCategoriesCommand.GetSignatureDescription(forSpecificProduct: false)}\n" +
+                    $"\t{ReconnectToServerCommand.GetSignatureDescription(reconnectToDefaultServer: true)}\n" +
+                    $"\t{ReconnectToServerCommand.GetSignatureDescription(reconnectToDefaultServer: false)}\n" +
+                    $"\t{ExitCommand.GetSignatureDescription()}\n";
         }
 
         public override UserCommandResponce ProceedUserResponce(string rawMessage)
@@ -27,7 +21,8 @@ namespace DatabaseUserIterface
 
                 switch (splitResult[0])
                 {
-                    case "category_of":
+                    case "categories_of":
+                        userCommand = new ShowCategoriesCommand(Program.CurrentState, splitResult);
                         break;
                     case "reconnect":
                         userCommand = new ReconnectToServerCommand(Program.CurrentState, splitResult);
