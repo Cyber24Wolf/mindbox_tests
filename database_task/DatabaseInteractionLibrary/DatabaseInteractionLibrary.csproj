@@ -45,5 +45,11 @@
     <Compile Include="MSDatabase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CreateTables.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="InsertDataInTables.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
